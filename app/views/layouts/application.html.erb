@@ -42,5 +42,14 @@
       </div>
     </div>
 
+  <script type="text/javascript">
+    let btnClose = document.querySelector('button.close');
+    if (btnClose) {
+      btnClose.addEventListener('click', function() {
+        document.querySelector('.alert').style = "display: none;";
+      })
+    }
+  </script>
+
   </body>
 </html>

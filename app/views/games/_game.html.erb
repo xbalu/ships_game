@@ -1,0 +1,19 @@
+<p>
+  Game id: <%= game.id %>,
+  status: <%= game.status %>
+  <% unless game.status == "ended" %>
+    <% if current_user.id == game.player1_id || current_user.id == game.player2_id %>
+      <%= link_to "Continue", game_path(game) %>
+    <% end %>
+  <% end %>
+  <br>
+  <%= User.find(game.player1_id).nickname %>
+  vs
+  <% unless game.player2_id.nil? %>
+    <%= User.find(game.player2_id).nickname %>
+  <% else %>
+    <% if current_user.id != game.player1_id %>
+      <%= link_to "Join game", join_game_path(game) %>
+    <% end %>
+  <% end %>
+</p>

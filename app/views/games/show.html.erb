@@ -1,0 +1,18 @@
+<h4>Battle room for game id <span id="game_id"><%= @game.id %></span></h4>
+<span id="info1" style="display: inline;">
+  Waiting for opponent...
+</span>
+<p id="direction" style="display: none;">
+  <br>Direction:
+  <%= radio_button_tag :direction, "up", checked: true %>Up
+  <%= radio_button_tag :direction, "right" %>Right
+  <%= radio_button_tag :direction, "down" %>Down
+  <%= radio_button_tag :direction, "left" %>Left
+  <br>
+  <span id="next_ship"></span>
+</p>
+
+<script type="text/javascript">
+  var game = new Game();
+  game.initializeGame();
+</script>

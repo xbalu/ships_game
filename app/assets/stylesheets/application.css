@@ -13,3 +13,27 @@
  *= require_tree .
  *= require_self
  */
+
+ table th, td {
+   text-align: center;
+ }
+
+ .clickableGrid, .staticGrid {
+   border-collapse: separate;
+   float: left;
+   margin: 10px 40px;
+ }
+
+ .clickableGrid td {
+   cursor: crosshair;
+ }
+
+ .clickableGrid td, .staticGrid td {
+   width: 30px;
+   height: 30px;
+   border: 1px dotted black;
+ }
+
+ th[scope="row"] {
+   padding-right: 5px;
+ }

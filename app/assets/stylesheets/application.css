@@ -21,7 +21,7 @@
  .clickableGrid, .staticGrid {
    border-collapse: separate;
    float: left;
-   margin: 10px 40px;
+   margin: 30px 20px 15px 20px;
  }
 
  .clickableGrid td {
@@ -36,4 +36,18 @@
 
  th[scope="row"] {
    padding-right: 5px;
+ }
+
+ #game_area {
+   float: left;
+ }
+
+ #comments {
+   width: 230px;
+   height: 400px;
+   float: right;
+   overflow-y: auto;
+   word-break: break-all;
+   margin-right: 30px;
+   padding: 0px 5px;
  }

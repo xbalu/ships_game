@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_if_user_belongs_to_game, only: [:show, :get_data, :send_data]
+  before_action :check_if_user_belongs_to_game, only: [:show, :send_data_to_js, :get_data_from_js]
 
   def check_if_user_belongs_to_game
     game = Game.find(params[:id])
@@ -40,12 +40,13 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
-  def get_data
+  def send_data_to_js
     game = Game.find(params[:id])
     player = current_user.id
     status = game.status
     status_params = {}
     player_grid, enemy_grid = game.get_game_grids(player)
+    comments = game.comments.order(created_at: :desc)
 
     case status
     when "deployment"
@@ -62,12 +63,18 @@ class GamesController < ApplicationController
     end
 
     render json: { status: status, player_grid: player_grid, enemy_grid: hide_ships(enemy_grid),
-      status_params: status_params, misses: game.get_misses(player) }
+      status_params: status_params, misses: game.get_misses(player), comments: comments }
   end
 
-  def send_data
+  def get_data_from_js
     game = Game.find(params[:id])
     player = current_user.id
+
+    if params[:comment]
+      save_user_comment(game.id, player, params[:comment])
+      return
+    end
+
     row = params[:row].to_i
     col = params[:col].to_i
 
@@ -86,6 +93,11 @@ class GamesController < ApplicationController
       message = game.check_clicked_field(player, row, col)
       render json: { message: message }
     end
+  end
+
+  def save_user_comment(game_id, user, message)
+    nickname = User.find(user).nickname
+    Comment.create(game_id: game_id, user_id: user, nickname: nickname, message: message)
   end
 
   private

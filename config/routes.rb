@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   resources :games do
     member do
       get 'join', to: 'games#join', as: 'join'
-      get 'get_data'
-      post 'send_data'
+      get 'get_game_data', to: 'games#send_data_to_js'
+      post 'send_game_data', to: 'games#get_data_from_js'
     end
   end
 

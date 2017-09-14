@@ -1,7 +1,7 @@
 function Game() {
   let id = parseInt(document.querySelector('#game_id').innerHTML);
-  this.getGameDataUrl = '/games/' + id + '/get_data';
-  this.postGameDataUrl = '/games/' + id + '/send_data';
+  this.getGameDataUrl = '/games/' + id + '/get_game_data';
+  this.postGameDataUrl = '/games/' + id + '/send_game_data';
   this.status = "pending";
   this.playerGrid = null;
   this.enemyGrid = null;
@@ -20,12 +20,16 @@ function Game() {
   this.pDirection = document.querySelector('p#direction');
   this.spanNextShip = document.querySelector('span#next_ship');
   this.spanMisses = document.querySelector('span#misses');
+  this.divGameArea = document.querySelector('#game_area');
+  this.divComments = document.querySelector('.comments_body');
+  this.commentsCount = 0;
 
   var Game = this;
   var fieldClicked = false;
 
   this.initializeGame = function() {
     enableMainInterval();
+    addEventListenerForChatInput();
   }
 
   function enableMainInterval() {
@@ -35,12 +39,30 @@ function Game() {
     }(), 2000);
   }
 
+  function addEventListenerForChatInput() {
+    document.querySelector("#chat_form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      let chatInput = document.querySelector("#chat_input");
+      let inputValue = chatInput.value;
+
+      if (!inputValue.length) {
+        return;
+      }
+
+      chatInput.value = "";
+      $.post(Game.postGameDataUrl, { comment: inputValue }, function(data) {
+        getGameData();
+      }, "json");
+    })
+  }
+
   function getGameData() {
     $.get(Game.getGameDataUrl, function(data) {
       Game.status = data['status'];
       Game.playerGrid = data['player_grid'];
       Game.enemyGrid = data['enemy_grid'];
       Game.misses = data['misses'];
+      printComments(data['comments']);
 
       if (Game.status == "deployment") {
         Game.nextShipName = data['status_params']['deployment']['next_ship_name'];
@@ -98,7 +120,6 @@ function Game() {
   function buildDeploymentGrid() {
     Game.deploymentGridId = buildGrid(10, 10, 'clickableGrid', deploymentClickCallback);
     Game.deploymentGridId.setAttribute("id", "deployment");
-    document.body.appendChild(Game.deploymentGridId);
   }
 
   function deploymentClickCallback(field, row, col) {
@@ -150,7 +171,7 @@ function Game() {
   }
 
   function displayMisses(misses) {
-    Game.spanMisses.innerHTML = "<br>Your misses: " + Game.misses[0] + "<br>Enemy misses: " + Game.misses[1];
+    Game.spanMisses.innerHTML = "<br>Your misses: " + Game.misses[0] + "<br>Enemy misses: " + Game.misses[1] + "<br>";
   }
 
   function removeDeploymentGrid() {
@@ -162,7 +183,6 @@ function Game() {
 
   function buildEnemyGrid() {
     Game.enemyGridId = buildGrid(10, 10, 'clickableGrid', startedGameClickCallback);
-    document.body.appendChild(Game.enemyGridId);
   }
 
   function startedGameClickCallback(field, row, col) {
@@ -204,7 +224,6 @@ function Game() {
 
   function buildPlayerGrid() {
     Game.playerGridId = buildGrid(10, 10, 'staticGrid');
-    document.body.appendChild(Game.playerGridId);
   }
 
   function styleClickedField(field) {
@@ -229,6 +248,25 @@ function Game() {
     setTimeout(function() {
       p.parentNode.removeChild(p);
     }, 1000)
+  }
+
+  function printComments(comments) {
+    let commentsLength = comments.length;
+
+    if (Game.commentsCount == commentsLength) {
+      return;
+    }
+
+    Game.divComments.innerHTML = "";
+    Game.commentsCount = commentsLength;
+
+    for (let i = 0; i < commentsLength; i++) {
+      let strTime = (new Date(comments[i]['created_at'])).toTimeString();
+      let time = strTime.substr(0, strTime.indexOf(' '))
+      let p = document.createElement('p');
+      p.innerHTML = "<strong>" + comments[i]['nickname'] + "</strong> " + time + "<br>" + comments[i]['message'];
+      Game.divComments.appendChild(p);
+    }
   }
 
   function buildGrid(rows, cols, gridClass, callback) {
@@ -258,6 +296,7 @@ function Game() {
           }
       }
 
+      Game.divGameArea.appendChild(grid);
       return grid;
   }
 

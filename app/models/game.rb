@@ -10,6 +10,7 @@ class Game < ApplicationRecord
   serialize :player2_ships, Hash
   belongs_to :player1, class_name: "User"
   belongs_to :player2, class_name: "User", optional: true
+  has_many :comments
 
   def include_player?(player_id)
     (self.player1_id == player_id) || (self.player2_id == player_id)

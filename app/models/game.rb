@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-  SHIPS_NAMES = { "4_ship" => "Aircraft (4 parts)", "3_ship" => "Destroyer (3 parts)",
+  SHIPS_NAMES = { "4_ship" => "Aircraft carrier (4 parts)", "3_ship" => "Destroyer (3 parts)",
     "2_ship" => "Cruiser (2 parts)", "1_ship" => "Frigate (1 part)"}
 
   NEIGHBOURS = [[0, -1], [0, 1], [-1, 0], [1, 0], [-1, -1], [1, -1], [-1, 1], [1, 1]]
@@ -11,9 +11,12 @@ class Game < ApplicationRecord
   belongs_to :player1, class_name: "User"
   belongs_to :player2, class_name: "User", optional: true
 
+  def include_player?(player_id)
+    (self.player1_id == player_id) || (self.player2_id == player_id)
+  end
+
   def ship_key_to_deploy(player_id)
-    player_ships = self.player1_id == player_id ? self.player1_ships : self.player2_ships
-    ships_number = player_ships.count
+    ships_number = count_deployed_ships(player_id)
 
     case ships_number
     when 0
@@ -29,8 +32,21 @@ class Game < ApplicationRecord
     end
   end
 
+  def count_deployed_ships(player_id)
+    player_ships = self.player1_id == player_id ? self.player1_ships : self.player2_ships
+    player_ships.count
+  end
+
   def get_ship_name_by_key(ship_key)
     SHIPS_NAMES.select { |k, v| k[/#{ship_key[0..5]}/] }.values[0]
+  end
+
+  def get_game_grids(player_id)
+    self.player1_id == player_id ? [self.player1_grid, self.player2_grid] : [self.player2_grid, self.player1_grid]
+  end
+
+  def get_misses(player_id)
+    self.player1_id == player_id ? [self.player1_misses, self.player2_misses] : [self.player2_misses, self.player1_misses]
   end
 
   def ship_deploy(player, row, col, dir, ship_key)
@@ -69,8 +85,8 @@ class Game < ApplicationRecord
       self.player2_ships[ship_key] = ship_fields
       ship_fields.each { |field| self.player2_grid[field] = :ship }
     end
-    self.save
 
+    self.save
     true
   end
 
@@ -89,5 +105,69 @@ class Game < ApplicationRecord
       self.status = "started"
       self.save
     end
+  end
+
+  def check_clicked_field(attacker, row, col)
+    is_enemy_first = self.player1_id != attacker
+
+    if is_enemy_first
+      player_grid = self.player1_grid
+      player_ships = self.player1_ships
+    else
+      player_grid = self.player2_grid
+      player_ships = self.player2_ships
+    end
+
+    message = ""
+
+    if player_grid[[row, col]] == :ship
+      player_grid[[row, col]] = :hit
+
+      key = player_ships.select { |k, v| v.include?([row, col]) }.keys[0]
+      ship_burned = player_ships[key].all? { |e| player_grid[e] == :hit }
+
+      if ship_burned
+        player_grid = mark_ship_neighbours(player_ships[key], player_grid)
+        message = "Ship burned!"
+      else
+        message = "Ship hit"
+      end
+    else
+      player_grid[[row, col]] = :miss
+      is_enemy_first ? self.player2_misses += 1 : self.player1_misses += 1
+      message = "Miss"
+    end
+
+    if is_enemy_first
+      self.player1_grid = player_grid
+      self.current_player = self.player1_id
+    else
+      self.player2_grid = player_grid
+      self.current_player = self.player2_id
+    end
+
+    if all_ships_destroyed(player_grid)
+      self.winner_id = attacker
+      self.status = "ended"
+      message = "Game ended!"
+    end
+
+    self.save
+    message
+  end
+
+  def mark_ship_neighbours(fields, player_grid)
+    fields.each do |field|
+      NEIGHBOURS.each do |neighbour|
+        row = field[0] + neighbour[0]
+        col = field[1] + neighbour[1]
+        player_grid[[row, col]] = :miss if player_grid[[row, col]] == :empty
+      end
+    end
+    player_grid
+  end
+
+  def all_ships_destroyed(player_grid)
+    player_grid.select { |k, v| v == :ship }.count == 0
   end
 end

@@ -1,10 +1,8 @@
 <p>
   Game id: <%= game.id %>,
   status: <%= game.status %>
-  <% unless game.status == "ended" %>
-    <% if current_user.id == game.player1_id || current_user.id == game.player2_id %>
-      <%= link_to "Continue", game_path(game) %>
-    <% end %>
+  <% if game.include_player?(current_user.id) %>
+    <%= link_to game.status == "ended" ? "View" : "Continue", game_path(game) %>
   <% end %>
   <br>
   <%= User.find(game.player1_id).nickname %>

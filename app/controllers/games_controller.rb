@@ -38,11 +38,14 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    @player1_name = User.find(@game.player1_id).nickname
   end
 
   def send_data_to_js
     game = Game.find(params[:id])
     player = current_user.id
+    player2 = game.player2_id
+    player2_name = player2 ? User.find_by(id: player2).nickname : ""
     status = game.status
     status_params = {}
     player_grid, enemy_grid = game.get_game_grids(player)
@@ -56,14 +59,18 @@ class GamesController < ApplicationController
     when "started"
       allow_move = game.current_player == player
       current_player_name = User.find(game.current_player).nickname
-      status_params["started"] = { allow_move: allow_move, current_player_name: current_player_name }
+      last_attacked_field = game.get_last_attacked_field(player)
+      game.erase_last_attacked_field(player)
+      status_params["started"] = { allow_move: allow_move, current_player_name: current_player_name,
+        attacked_field: last_attacked_field }
     when "ended"
       winner_name = User.find(game.winner_id).nickname
       status_params["ended"] = { winner_name: winner_name }
     end
 
-    render json: { status: status, player_grid: player_grid, enemy_grid: hide_ships(enemy_grid),
-      status_params: status_params, misses: game.get_misses(player), comments: comments }
+    render json: { status: status, player2_name: player2_name, player_grid: player_grid,
+      enemy_grid: status != "ended" ? hide_ships(enemy_grid) : enemy_grid, status_params: status_params,
+      misses: game.get_misses, ships_left: game.get_ships_left, comments: comments }
   end
 
   def get_data_from_js
@@ -87,10 +94,11 @@ class GamesController < ApplicationController
       ships_deployed = game.count_deployed_ships(player)
       game.check_start_condition
 
-      render json: { return_value: return_value, player_grid: player_grid,
-        ships_deployed: ships_deployed, status: game.status }
+      render json: { return_value: return_value, ship_parts: game.get_ship_parts_by_key(ship_key),
+        player_grid: player_grid, ships_deployed: ships_deployed, status: game.status }
     when "started"
       message = game.check_clicked_field(player, row, col)
+      game.save_last_attack(player, row, col)
       render json: { message: message }
     end
   end

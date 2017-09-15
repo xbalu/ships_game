@@ -14,8 +14,19 @@
  *= require_self
  */
 
+ body {
+   background-color: rgb(255, 235, 255);
+   color: #000;
+ }
+
  table th, td {
    text-align: center;
+ }
+
+ .col-md-6 h3 {
+   margin-top: 0px;
+   color: #990033;
+   font-weight: 600;
  }
 
  .clickableGrid, .staticGrid {
@@ -38,16 +49,128 @@
    padding-right: 5px;
  }
 
+ .game-top {
+   height: 150px;
+   text-align: center;
+ }
+
+ #main_game_info, #next_ship_name, #clicked_field_info {
+   font-family: "Georgia";
+   font-size: 1.6rem;
+ }
+
+ #main_game_info {
+   letter-spacing: 1.5px;
+ }
+
+ #next_ship_name {
+   color: #990033;
+ }
+
+ #clicked_field_info {
+   font-size: 1.3em;
+ }
+
+ .important {
+   color: #990033;
+   font-weight: bold;
+ }
+
+ #player1_div, #player2_div {
+   font-family: "Avantgarde";
+   font-size: 2rem;
+ }
+
+ #player1_name, #player2_name {
+   font-weight: bold;
+ }
+
+ #player1_info, #player2_info {
+   font-size: 0.8em;
+ }
+
+ .players_turn_border {
+   border: 1px solid black;
+   background-color: #001866;
+   color: white;
+ }
+
  #game_area {
    float: left;
+   display: flex;
+   padding-left: 50px;
+ }
+
+ .field {
+   background-color: #b3c6ff;
+ }
+
+ .ship {
+   background: #b3c6ff url('ship.png') no-repeat center center;
+   background-size: contain;
+ }
+
+ .hit {
+   background: #809fff url('hit.png') no-repeat center center;
+   background-size: contain;
+ }
+
+ .miss {
+   background-color: #809fff;
+ }
+
+ .highlighted_field {
+   background-color: #33cc33;
+ }
+
+ .attacked_field {
+   background-color: #ff3333;
+ }
+
+ #direction {
+   font-family: monospace;
+   margin: 45px 0px 0px 260px;
+   padding-bottom: 5px;
+ }
+
+ .btn-direction {
+   text-align: center;
+   vertical-align: middle;
+   font-size: 1.8em;
+   padding: 0px;
+   width: 38px;
+   height: 38px;
+   border: 1px solid black;
+   border-radius: 0px;
+ }
+
+ .btn-upward {
+   margin-left: 37px;
+   border-bottom: 0px;
+ }
+
+ .btn-clicked {
+   background-color: #990033;
  }
 
  #comments {
-   width: 230px;
-   height: 400px;
+   width: 25%;
+   height: 380px;
    float: right;
    overflow-y: auto;
    word-break: break-all;
-   margin-right: 30px;
-   padding: 0px 5px;
+   padding: 0px 15px;
+   border: 1px dashed #000;
+   background-color: #b3b3ff;
+ }
+
+ #chat_input {
+   padding-left: 10px;
+   width: 100%;
+ }
+
+ #comments p {
+   font-family: "sans-serif";
+   font-size: 1.2rem;
+   padding-left: 10px;
  }

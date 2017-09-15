@@ -10,7 +10,7 @@ class Game < ApplicationRecord
   serialize :player2_ships, Hash
   belongs_to :player1, class_name: "User"
   belongs_to :player2, class_name: "User", optional: true
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   def include_player?(player_id)
     (self.player1_id == player_id) || (self.player2_id == player_id)
@@ -42,12 +42,31 @@ class Game < ApplicationRecord
     SHIPS_NAMES.select { |k, v| k[/#{ship_key[0..5]}/] }.values[0]
   end
 
+  def get_ship_parts_by_key(ship_key)
+    ship_key[0].to_i
+  end
+
   def get_game_grids(player_id)
     self.player1_id == player_id ? [self.player1_grid, self.player2_grid] : [self.player2_grid, self.player1_grid]
   end
 
-  def get_misses(player_id)
-    self.player1_id == player_id ? [self.player1_misses, self.player2_misses] : [self.player2_misses, self.player1_misses]
+  def get_misses
+    [self.player1_misses, self.player2_misses]
+  end
+
+  def save_last_attack(player, row, col)
+    arr = [row, col]
+    self.player1_id == player ? self.player1_last_attack = arr : self.player2_last_attack = arr
+    self.save
+  end
+
+  def get_last_attacked_field(player)
+    self.player1_id == player ? self.player2_last_attack : self.player1_last_attack
+  end
+
+  def erase_last_attacked_field(player)
+    self.player1_id == player ? self.player2_last_attack = [] : self.player1_last_attack = []
+    self.save
   end
 
   def ship_deploy(player, row, col, dir, ship_key)
@@ -108,6 +127,10 @@ class Game < ApplicationRecord
     end
   end
 
+  def get_ships_left
+    [self.player1_ships.select { |k, v| v != [0] }.count, self.player2_ships.select { |k, v| v != [0] }.count]
+  end
+
   def check_clicked_field(attacker, row, col)
     is_enemy_first = self.player1_id != attacker
 
@@ -130,6 +153,7 @@ class Game < ApplicationRecord
       if ship_burned
         player_grid = mark_ship_neighbours(player_ships[key], player_grid)
         message = "Ship burned!"
+        player_ships[key] = [0]
       else
         message = "Ship hit"
       end

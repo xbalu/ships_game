@@ -1,18 +1,35 @@
-<h4>Battle room for game id <span id="game_id"><%= @game.id %></span></h4>
-<span id="info1" style="display: inline;">
-  Waiting for opponent...
-</span>
-<p id="direction" style="display: none;">
-  <br>Direction:
-  <%= radio_button_tag :direction, "up", checked: true %>Up
-  <%= radio_button_tag :direction, "right" %>Right
-  <%= radio_button_tag :direction, "down" %>Down
-  <%= radio_button_tag :direction, "left" %>Left
-  <br>
-  <span id="next_ship"></span>
-</p>
-<span id="misses"></span>
-<div id="game_area"></div>
+<div id="player1_div" class="col-md-3 game-top">
+  <p id="player1_name">
+    <%= @player1_name %>
+  </p>
+  <span id="player1_info"></span>
+</div>
+
+<div class="col-md-6 game-top">
+  <h3>Battle room for game id <span id="game_id"><%= @game.id %></span></h3>
+  <p id="main_game_info"></p>
+  <p id="next_ship_name"></p>
+  <p id="clicked_field_info"></p>
+</div>
+
+<div id="player2_div" class="col-md-3 game-top">
+  <p id="player2_name">
+  </p>
+  <span id="player2_info"></span>
+</div>
+
+<div id="game_area">
+  <p id="direction" style="display: none;">
+    Ship direction<br><br>
+    <button type="button" id="dir_up" value="up" class="btn btn-direction btn-upward">&#8593;</button><br>
+    <span class="btn-group">
+      <button type="button" id="dir_left" value="left" class="btn btn-direction">&#8592;</button>
+      <button type="button" id="dir_down" value="down" class="btn btn-direction">&#8595;</button>
+      <button type="button" id="dir_right" value="right" class="btn btn-direction">&#8594;</button><br>
+    </span>
+  </p>
+</div>
+
 <div id="comments">
   <%= render "comments/comment_form" %>
   <div class="comments_body">

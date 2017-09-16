@@ -17,20 +17,40 @@
   </head>
   <body>
 
-    <div class="navbar navbar-default navbar-static-top">
+    <div id="site-top" class="navbar navbar-default navbar-static-top">
       <div class="container">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">ShipsGame</a>
+        <div id="logo"></div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
             <li><%= link_to "Home", root_url %></li>
-            <li><%= link_to "Games", games_url %></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Games list", games_url %></li>
+                <li><%= link_to "Your games", "#" %></li>
+                <li class="divider"></li>
+                <li><%= link_to "Create new game", new_game_url %></li>
+                <li><%= link_to "Join any", "#" %></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Edit profile</a></li>
+                <li><a href="#">Sign out</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
+
       </div>
     </div>
 

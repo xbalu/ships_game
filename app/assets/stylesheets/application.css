@@ -17,6 +17,60 @@
  body {
    background-color: rgb(255, 235, 255);
    color: #000;
+   font-family: "sans-serif";
+ }
+
+ #site-top {
+   background-color: #60b0f4;
+   color: white;
+ }
+
+ #logo {
+   width: 180px;
+   height: 80px;
+   float: left;
+   background: url('logo.png') no-repeat center center;
+   background-size: contain;
+   margin: 10px;
+ }
+
+ .navbar-default .navbar-nav > li > a {
+   color: #001866;
+ }
+
+ .navbar-default .navbar-nav > li:hover > a,
+ .navbar-default .navbar-nav > li.dropdown:hover > a,
+ .navbar-default .navbar-nav > li.dropdown:hover > a:hover,
+ .navbar-default .navbar-nav > li.dropdown:hover > a:focus,
+ .navbar-default .navbar-nav > .open > a,
+ .navbar-default .navbar-nav > .open > a:hover,
+ .navbar-default .navbar-nav > .open > a:focus {
+   background-color: #001866;
+   color: white;
+ }
+
+ ul.dropdown-menu {
+   padding: 0;
+ }
+
+ ul.dropdown-menu > li > a:hover {
+   background-color: #b3c6ff;
+ }
+
+ li.dropdown:hover > .dropdown-menu {
+   display: block;
+ }
+
+ a:hover {
+   cursor: pointer;
+ }
+
+ .navbar-collapse {
+   margin-top: 50px;
+ }
+
+ ul.navbar-nav {
+   margin-left: 50px;
  }
 
  table th, td {
@@ -50,7 +104,7 @@
  }
 
  .game-top {
-   height: 150px;
+   height: 130px;
    text-align: center;
  }
 
@@ -155,7 +209,7 @@
 
  #comments {
    width: 25%;
-   height: 380px;
+   height: 350px;
    float: right;
    overflow-y: auto;
    word-break: break-all;

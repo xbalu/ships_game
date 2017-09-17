@@ -94,8 +94,9 @@
    color: #fff;
  }
 
- .pagination {
+ .pagination, h4.count {
    margin: 0px;
+   padding-left: 25px;
  }
 
  table th, td {

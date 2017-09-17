@@ -12,6 +12,8 @@ class Game < ApplicationRecord
   belongs_to :player2, class_name: "User", optional: true
   has_many :comments, dependent: :destroy
 
+  self.per_page = 12
+
   def include_player?(player_id)
     (self.player1_id == player_id) || (self.player2_id == player_id)
   end
@@ -179,6 +181,10 @@ class Game < ApplicationRecord
 
     self.save
     message
+  end
+
+  def self.get_user_games(user)
+    where("player1_id = :id OR player2_id = :id", id: "#{user}")
   end
 
   def mark_ship_neighbours(fields, player_grid)

@@ -10,5 +10,6 @@ Rails.application.routes.draw do
   end
 
   get 'user_games', to: 'games#user_games', as: 'user_games'
+  get 'join_first_pending', to: 'games#join_first_pending', as: 'join_first_pending'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

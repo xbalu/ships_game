@@ -187,6 +187,10 @@ class Game < ApplicationRecord
     where("player1_id = :id OR player2_id = :id", id: "#{user}")
   end
 
+  def self.get_first_pending_game(user)
+    where(status: "pending").where.not("player1_id = :id", id: "#{user}").order(created_at: :desc).first
+  end
+
   def mark_ship_neighbours(fields, player_grid)
     fields.each do |field|
       NEIGHBOURS.each do |neighbour|

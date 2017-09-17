@@ -47,6 +47,18 @@ class GamesController < ApplicationController
     redirect_to game_url(game)
   end
 
+  def join_first_pending
+    user = current_user.id
+    game = Game.get_first_pending_game(user)
+
+    if (!game)
+      flash[:error] = "No pending games are available at this moment"
+      redirect_to games_url
+    else
+      redirect_to join_game_path(game)
+    end
+  end
+
   def show
     @game = Game.find(params[:id])
     @player1_name = User.find(@game.player1_id).nickname

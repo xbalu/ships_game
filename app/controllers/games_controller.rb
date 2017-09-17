@@ -33,6 +33,13 @@ class GamesController < ApplicationController
 
   def join
     game = Game.find(params[:id])
+
+    if (game.player2_id)
+      flash[:error] = "The game has already two players"
+      redirect_to games_url
+      return
+    end
+
     game.player2_id = current_user.id
     game.status = "deployment"
     game.save

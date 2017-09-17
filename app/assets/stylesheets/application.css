@@ -61,8 +61,14 @@
    display: block;
  }
 
+ a {
+   color: #990033;
+ }
+
  a:hover {
    cursor: pointer;
+   color: #990033;
+   text-decoration: none;
  }
 
  .navbar-collapse {
@@ -71,6 +77,25 @@
 
  ul.navbar-nav {
    margin-left: 50px;
+ }
+
+ #games_list {
+   font-family: monospace;
+   margin-top: 20px;
+ }
+
+ .games_list_links a {
+   padding-left: 25px;
+   padding-right: 45px;
+ }
+
+ .games_list_links a:hover {
+   background-color: #990033;
+   color: #fff;
+ }
+
+ .pagination {
+   margin: 0px;
  }
 
  table th, td {
@@ -155,7 +180,7 @@
    padding-left: 50px;
  }
 
- .field {
+ .game_field {
    background-color: #b3c6ff;
  }
 

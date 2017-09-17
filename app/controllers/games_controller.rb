@@ -13,7 +13,10 @@ class GamesController < ApplicationController
   end
 
   def index
-    @games = Game.all.order(created_at: :desc)
+    @status_color = { "pending" => "#009900", "deployment" => "#001866",
+      "started" => "#001866", "ended" => "#ff1a1a" }
+    query = params[:pending] == "true" ? "status = \'pending\'" : ""
+    @games = Game.all.where(query).order(created_at: :desc).paginate(:page => params[:page], :per_page => 12)
   end
 
   def new

@@ -1,3 +1,10 @@
-<h4>Games list</h4>
-<%= link_to "Create new game", new_game_url %>
-<%= render @games %>
+<% content_for :title, "Games list" %>
+<span class="games_list_links">
+  <%= link_to "Create new game", new_game_url %>
+  <% if params[:pending] != "true" %>
+    <%= link_to "Show only pending", games_url(pending: "true") %>
+  <% else %>
+    <%= link_to "Show all games", games_url(pending: "false") %>
+  <% end %>
+</span>
+<%= render "game_table" %>

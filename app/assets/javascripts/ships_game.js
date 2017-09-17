@@ -392,7 +392,7 @@ function Game() {
 
           for (var col = 0; col < cols; col++) {
               var field = tr.appendChild(document.createElement('td'));
-              field.classList.add("field");
+              field.classList.add("game_field");
 
               if (callback) {
                 field.addEventListener('click', (function(field, row, col) {

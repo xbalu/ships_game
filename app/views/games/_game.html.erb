@@ -1,17 +1,26 @@
-<p>
-  Game id: <%= game.id %>,
-  status: <%= game.status %>
-  <% if game.include_player?(current_user.id) %>
-    <%= link_to game.status == "ended" ? "View" : "Continue", game_path(game) %>
-  <% end %>
-  <br>
-  <%= User.find(game.player1_id).nickname %>
-  vs
-  <% unless game.player2_id.nil? %>
-    <%= User.find(game.player2_id).nickname %>
-  <% else %>
-    <% if current_user.id != game.player1_id %>
-      <%= link_to "Join game", join_game_path(game) %>
+<% status = game.status %>
+
+<tr>
+  <td><%= game.id %></td>
+  <td>
+    <%= User.find(game.player1_id).nickname %>
+    <% unless game.player2_id.nil? %>
+      <%= "vs #{User.find(game.player2_id).nickname}" %>
     <% end %>
-  <% end %>
-</p>
+  </td>
+  <td style="color: <%= @status_color[status] %>;">
+    <%= status.capitalize %>
+  </td>
+  <td>
+    <% if game.include_player?(current_user.id) %>
+      <%= link_to status == "ended" ? "View" : "Continue", game_path(game) %>
+    <% elsif status == "pending" %>
+      <span style="text-decoration: underline;">
+        <%= link_to "Join game", join_game_path(game) %>
+      </span>
+    <% end %>
+  </td>
+  <td>
+    <%= game.created_at.to_s[0..15].insert(10, ' -') %>
+  </td>
+</tr>

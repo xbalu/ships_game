@@ -1,0 +1,13 @@
+<div id="games_list">
+  <table class="table table-condensed">
+    <tr class="danger">
+      <th>Game ID</th>
+      <th>Players</th>
+      <th>Status</th>
+      <th></th>
+      <th>Created</th>
+    </tr>
+    <%= render @games %>
+  </table>
+  <%= will_paginate @posts %>
+</div>

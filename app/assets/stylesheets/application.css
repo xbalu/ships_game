@@ -20,6 +20,34 @@
    font-family: "sans-serif";
  }
 
+ div.field_with_errors {
+   display: inline;
+ }
+
+ div.field_with_errors input, div.field_with_errors textarea {
+   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+   padding: 3px 0px 3px 3px;
+   border: 1px solid #CC0000;
+   background-color: #FFFF92;
+ }
+
+ .form input {
+   width: 200px;
+ }
+
+ /*.form input[type="checkbox"] {
+   width: inherit;
+ }*/
+
+ .btn-submit {
+   height: 30px;
+   margin-top: 5px;
+   border: 1px solid #001866;
+   background-color: #60b0f4;
+   color: #001866;
+   font-weight: bold;
+ }
+
  #site-top {
    background-color: #60b0f4;
    color: white;
@@ -87,6 +115,7 @@
  .games_list_links a {
    padding-left: 25px;
    padding-right: 45px;
+   color: #990033;
  }
 
  .games_list_links a:hover {
@@ -103,10 +132,9 @@
    text-align: center;
  }
 
- .col-md-6 h3 {
+ h3 {
    margin-top: 0px;
    color: #990033;
-   font-weight: 600;
  }
 
  .clickableGrid, .staticGrid {

@@ -93,7 +93,7 @@ class GamesController < ApplicationController
     render json: { status: status, player2_name: player2_name, player_grid: player_grid,
       enemy_grid: status != "ended" ? hide_ships(enemy_grid) : enemy_grid, status_params: status_params,
       misses: game.get_misses, ships_left: game.get_ships_left, comments: comments,
-      player2_img_url: player2_img_url }
+      player2_img_url: player2_img_url, player2_id: player2 }
   end
 
   def get_data_from_js

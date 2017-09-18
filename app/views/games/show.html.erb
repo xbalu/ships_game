@@ -6,6 +6,9 @@
     <p id="player1_name">
       <%= @player1_name %>
     </p>
+    <span class="profile_link">
+      <%= link_to "Profile", user_profile_url(@game.player1_id), target: "_blank" %>
+    </span><br>
     <span id="player1_info"></span>
   </div>
 </div>
@@ -20,6 +23,9 @@
 <div id="player2_div" class="col-md-3 game-top">
   <div class="col-md-9">
     <p id="player2_name"></p>
+    <span class="profile_link">
+      <%= link_to "Profile", user_profile_url("@"), id: "player2_link", target: "_blank", style: "display: none;" %>
+    </span><br>
     <span id="player2_info"></span>
   </div>
   <div class="col-md-3" class="zero_margin_and_padding">

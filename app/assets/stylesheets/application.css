@@ -89,8 +89,9 @@
    display: block;
  }
 
- a {
+ a, a:visited, a:active, a:focus {
    color: #990033;
+   text-decoration: none;
  }
 
  a:hover {
@@ -261,14 +262,18 @@
 
  #player1_name, #player2_name {
    font-weight: bold;
+   margin-bottom: 0px;
+ }
+
+ .profile_link {
+   font-size: 0.8em;
  }
 
  #player1_info, #player2_info {
    font-size: 0.8em;
  }
 
- .players_turn_border {
-   border: 1px solid black;
+ .highlight_player_name {
    background-color: #001866;
    color: white;
  }
@@ -340,6 +345,7 @@
    padding: 0px 15px;
    border: 1px dashed #000;
    background-color: #b3b3ff;
+   margin-top: 25px;
  }
 
  #chat_input {

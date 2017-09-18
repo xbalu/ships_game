@@ -29,6 +29,7 @@ function Game() {
   this.divComments = document.querySelector('.comments_body');
   this.commentsCount = 0;
   this.player2Image = document.querySelector('#player2_image');
+  this.profileLink = document.querySelector('#player2_link');
 
   var Game = this;
   var fieldClicked = false;
@@ -69,7 +70,7 @@ function Game() {
       Game.enemyGrid = data['enemy_grid'];
       Game.misses = data['misses'];
       Game.shipsLeft = data['ships_left'];
-      checkForPlayer2(data['player2_name'], data['player2_img_url']);
+      checkForPlayer2(data['player2_name'], data['player2_img_url'], data['player2_id']);
       printComments(data['comments']);
 
       if (Game.status == "pending") {
@@ -90,11 +91,13 @@ function Game() {
     });
   }
 
-  function checkForPlayer2(name, image_url) {
+  function checkForPlayer2(name, image_url, player2_id) {
     if (name && Game.player2Image.style.display == "none") {
       Game.pPlayer2Name.innerHTML = name;
       Game.player2Image.src = image_url;
       Game.player2Image.style = "display: visible;";
+      Game.profileLink.href = Game.profileLink.href.replace("@", player2_id);
+      Game.profileLink.style = "display: visible;";
     }
   }
 
@@ -249,10 +252,10 @@ function Game() {
 
   function highlightCurrentPlayer() {
     if (Game.pPlayer2Name.innerHTML == Game.currentPlayerName) {
-      Game.pPlayer2Name.className = "players_turn_border";
+      Game.pPlayer2Name.className = "highlight_player_name";
       Game.pPlayer1Name.className = "";
     } else {
-      Game.pPlayer1Name.className = "players_turn_border";
+      Game.pPlayer1Name.className = "highlight_player_name";
       Game.pPlayer2Name.className = "";
     }
   }

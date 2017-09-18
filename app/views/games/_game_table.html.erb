@@ -1,3 +1,6 @@
+<% @status_color = { "pending" => "#009900", "deployment" => "#001866", "started" => "#001866",
+    "ended" => "#990033" } %>
+
 <div id="games_list">
   <table class="table table-condensed">
     <tr class="danger">
@@ -9,5 +12,5 @@
     </tr>
     <%= render @games %>
   </table>
-  <%= will_paginate @posts %>
+  <%= will_paginate @games %>
 </div>

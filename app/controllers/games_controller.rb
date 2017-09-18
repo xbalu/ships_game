@@ -1,8 +1,6 @@
 class GamesController < ApplicationController
   before_action :authenticate_user!
   before_action :check_if_user_belongs_to_game, only: [:show, :send_data_to_js, :get_data_from_js]
-  STATUS_COLOR = { "pending" => "#009900", "deployment" => "#001866", "started" => "#001866",
-    "ended" => "#ff1a1a" }
 
   def check_if_user_belongs_to_game
     game = Game.find(params[:id])
@@ -15,7 +13,6 @@ class GamesController < ApplicationController
   end
 
   def index
-    @status_color = STATUS_COLOR
     query = params[:pending] == "true" ? "status = \'pending\'" : ""
     @games = Game.all.where(query).order(created_at: :desc).page(params[:page])
   end
@@ -133,7 +130,6 @@ class GamesController < ApplicationController
 
   def user_games
     user = current_user.id
-    @status_color = STATUS_COLOR
     @games = Game.all.get_user_games(user).order(created_at: :desc).page(params[:page])
   end
 

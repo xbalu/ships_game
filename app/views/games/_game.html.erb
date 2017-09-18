@@ -1,11 +1,35 @@
 <% status = game.status %>
+<% ended = status == "ended" %>
+<% player1_id = game.player1_id %>
+<% player2_id = game.player2_id %>
 
 <tr>
   <td><%= game.id %></td>
   <td>
-    <%= User.find(game.player1_id).nickname %>
-    <% unless game.player2_id.nil? %>
-      <%= "vs #{User.find(game.player2_id).nickname}" %>
+    <% if ended %>
+      <% if player1_id == game.winner_id %>
+        <span style="color: green;">
+      <% else %>
+        <span style="color: red;">
+      <% end %>
+    <% end %>
+    <%= User.find(player1_id).nickname %>
+    <% if ended %>
+      </span>
+    <% end %>
+    <% unless player2_id.nil? %>
+      vs
+      <% if ended %>
+        <% if player2_id == game.winner_id %>
+          <span style="color: green;">
+        <% else %>
+          <span style="color: red;">
+        <% end %>
+      <% end %>
+      <%= User.find(player2_id).nickname %>
+      <% if ended %>
+        </span>
+      <% end %>
     <% end %>
   </td>
   <td style="color: <%= @status_color[status] %>;">

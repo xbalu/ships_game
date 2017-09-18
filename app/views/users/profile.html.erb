@@ -1,0 +1,39 @@
+<div id="user_profile">
+  <div class="col-md-2 col-md-offset-1 col-left">
+    <p>
+      <strong>
+        <%= @user.nickname %>
+      </strong>
+    </p>
+    <div>
+      <%= image_tag @user.get_image_url, class: "image" %>
+    </div>
+  </div>
+  <div class="col-md-6 col-md-offset-2 profile-info">
+    <table>
+      <tr>
+        <td>Total games</td>
+        <td><%= @user_games.count %></td>
+      </tr>
+      <tr>
+        <td>Ended</td>
+        <td><%= @games_ended_count %></td>
+      </tr>
+      <tr>
+        <td>Won</td>
+        <td><%= @games_won %></td>
+      </tr>
+      <tr>
+        <td>Lost</td>
+        <td><%= @games_lost %></td>
+      </tr>
+      <tr>
+        <td>Win ratio (%)</td>
+        <td><%= @games_ended_count > 0 ? (@games_won / @games_ended_count.to_f * 100).round(1) : "-" %></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-md-12 profile-table">
+    <%= render "games/game_table" %>
+  </div>
+</div>

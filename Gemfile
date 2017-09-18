@@ -55,3 +55,6 @@ gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootst
 gem 'jquery-rails'
 gem 'devise'
 gem 'will_paginate'
+gem 'carrierwave', '~> 1.0'
+gem 'carrierwave-postgresql'
+gem 'postgresql_lo_streamer'

@@ -176,6 +176,12 @@ class Game < ApplicationRecord
     if all_ships_destroyed(player_grid)
       self.winner_id = attacker
       self.status = "ended"
+      winner = User.find(attacker)
+      winner.games_won += 1
+      winner.save
+      looser = is_enemy_first ? User.find(self.player1_id) : User.find(self.player2_id)
+      looser.games_lost += 1
+      looser.save
       message = "Game ended!"
     end
 

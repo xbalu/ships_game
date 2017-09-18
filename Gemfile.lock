@@ -62,6 +62,12 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    carrierwave (1.1.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
+    carrierwave-postgresql (0.1.5)
+      carrierwave
     childprocess (0.7.1)
       ffi (~> 1.0, >= 1.0.11)
     coffee-rails (4.2.2)
@@ -120,6 +126,8 @@ GEM
       mini_portile2 (~> 2.2.0)
     orm_adapter (0.5.0)
     pg (0.21.0)
+    postgresql_lo_streamer (1.1.0)
+      rails (>= 4.0)
     public_suffix (3.0.0)
     puma (3.10.0)
     rack (2.0.3)
@@ -210,12 +218,15 @@ PLATFORMS
 DEPENDENCIES
   byebug
   capybara (~> 2.13)
+  carrierwave (~> 1.0)
+  carrierwave-postgresql
   coffee-rails (~> 4.2)
   devise
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
   pg (~> 0.18)
+  postgresql_lo_streamer
   puma (~> 3.7)
   rails (~> 5.1.4)
   sass-rails (~> 5.0)

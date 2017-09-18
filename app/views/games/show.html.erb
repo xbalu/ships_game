@@ -1,8 +1,13 @@
 <div id="player1_div" class="col-md-3 game-top">
-  <p id="player1_name">
-    <%= @player1_name %>
-  </p>
-  <span id="player1_info"></span>
+  <div class="col-md-3" class="zero_margin_and_padding">
+    <%= image_tag User.find(@game.player1_id).get_image_url, class: "avatar_mid_1" %>
+  </div>
+  <div class="col-md-9">
+    <p id="player1_name">
+      <%= @player1_name %>
+    </p>
+    <span id="player1_info"></span>
+  </div>
 </div>
 
 <div class="col-md-6 game-top">
@@ -13,9 +18,13 @@
 </div>
 
 <div id="player2_div" class="col-md-3 game-top">
-  <p id="player2_name">
-  </p>
-  <span id="player2_info"></span>
+  <div class="col-md-9">
+    <p id="player2_name"></p>
+    <span id="player2_info"></span>
+  </div>
+  <div class="col-md-3" class="zero_margin_and_padding">
+    <%= image_tag "/", id: "player2_image", class: "avatar_mid_2", style: "display: none;" %>
+  </div>
 </div>
 
 <div id="game_area">

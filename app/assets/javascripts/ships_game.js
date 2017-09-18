@@ -28,6 +28,7 @@ function Game() {
   this.divGameArea = document.querySelector('#game_area');
   this.divComments = document.querySelector('.comments_body');
   this.commentsCount = 0;
+  this.player2Image = document.querySelector('#player2_image');
 
   var Game = this;
   var fieldClicked = false;
@@ -68,7 +69,7 @@ function Game() {
       Game.enemyGrid = data['enemy_grid'];
       Game.misses = data['misses'];
       Game.shipsLeft = data['ships_left'];
-      checkPlayer2Name(data['player2_name']);
+      checkForPlayer2(data['player2_name'], data['player2_img_url']);
       printComments(data['comments']);
 
       if (Game.status == "pending") {
@@ -89,9 +90,11 @@ function Game() {
     });
   }
 
-  function checkPlayer2Name(name) {
-    if (name) {
+  function checkForPlayer2(name, image_url) {
+    if (name && Game.player2Image.style.display == "none") {
       Game.pPlayer2Name.innerHTML = name;
+      Game.player2Image.src = image_url;
+      Game.player2Image.style = "display: visible;";
     }
   }
 

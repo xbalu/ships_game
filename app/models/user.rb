@@ -10,4 +10,8 @@ class User < ApplicationRecord
   def get_image_url
     self.image.file.size > 0 ? self.image.url : "default_avatar.jpg"
   end
+
+  def is_admin?
+    self.admin_flag
+  end
 end

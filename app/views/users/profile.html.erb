@@ -2,7 +2,12 @@
   <div class="col-md-2 col-md-offset-1 col-left">
     <p>
       <strong>
-        <%= @user.nickname %>
+        <%= @user.nickname %><br>
+        <% if @user.is_admin? %>
+          <span style="color: red; font-size: 0.8em;">
+            Admin
+          </span>
+        <% end %>
       </strong>
     </p>
     <div>

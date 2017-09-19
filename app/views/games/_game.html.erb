@@ -36,7 +36,7 @@
     <%= status.capitalize %>
   </td>
   <td>
-    <% if game.include_player?(current_user.id) %>
+    <% if game.include_player?(current_user.id) || ended %>
       <%= link_to status == "ended" ? "View" : "Continue", game_path(game) %>
     <% elsif status == "pending" %>
       <span style="text-decoration: underline;">

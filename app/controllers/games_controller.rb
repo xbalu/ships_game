@@ -6,7 +6,7 @@ class GamesController < ApplicationController
     game = Game.find(params[:id])
     player = current_user.id
 
-    if !game.include_player?(player)
+    if !game.include_player?(player) && game.status != "ended"
       flash[:alert] = "You don\'t have permission to do that"
       redirect_to root_url
     end
@@ -63,7 +63,8 @@ class GamesController < ApplicationController
 
   def send_data_to_js
     game = Game.find(params[:id])
-    player = current_user.id
+    user_id = current_user.id
+    player = game.include_player?(user_id) ? user_id : game.player2_id
     player2 = game.player2_id
     player2_name = player2 ? User.find(player2).nickname : ""
     player2_img_url = player2 ? User.find(player2).get_image_url : ""

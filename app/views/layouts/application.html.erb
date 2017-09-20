@@ -39,6 +39,7 @@
                 <li class="<%= classname %>"><%= link_to "Join first pending", join_first_pending_url %></li>
               </ul>
             </li>
+            <li><%= link_to "Report form", new_report_url %></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <% if !user_signed_in? %>
@@ -59,6 +60,10 @@
                   <li><%= link_to "View profile", user_profile_path(current_user.id) %></li>
                   <li><%= link_to "Edit profile", edit_user_registration_path %></li>
                   <li><%= link_to "Sign out", destroy_user_session_path, method: :delete %></li>
+                  <% if current_user.is_admin? %>
+                    <li class="divider"></li>
+                    <li><%= link_to "Reports", reports_path %></li>
+                  <% end %>
                 </ul>
               </li>
             <% end %>

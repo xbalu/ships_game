@@ -1,0 +1,13 @@
+<h3 class="reports_title">Reports</h3>
+
+<table class="table table-condensed">
+<tr class="danger">
+  <th>Email</th>
+  <th>Nickname</th>
+  <th>Message</th>
+  <th>Created</th>
+  <th></th>
+</tr>
+<%= render @reports %>
+</table>
+<%= will_paginate @reports %>

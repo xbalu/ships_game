@@ -124,9 +124,19 @@
    color: #fff;
  }
 
- .pagination, h4.count {
+ .pagination, h4.count, .reports_title {
    margin: 0px;
    padding-left: 25px;
+ }
+
+ .reports_title {
+   margin-bottom: 20px;
+ }
+
+ textarea {
+   width: 745px;
+   height: 250px;
+   resize: none;
  }
 
  #user_profile {

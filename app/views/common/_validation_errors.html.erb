@@ -1,0 +1,3 @@
+<% if model.errors.any? %>
+  <% flash.now[:error] = model.errors.full_messages.join('<br />').html_safe %>
+<% end %>

@@ -1,0 +1,39 @@
+<% user = User.find(report.user_id) %>
+<tr>
+  <td class="col-md-2">
+    <%= link_to "#{user.email}", user_profile_path(user.id), target: "_blank" %>
+  </td>
+  <td class="col-md-1">
+    <%= user.nickname %>
+  </td>
+  <td class="col-md-6">
+    <% if report.text.length > 60 %>
+      <span id="report_<%= report.id %>" style="display: none; word-break: break-all;"><%= report.text %></span>
+      <%= link_to "/ exceeds 60 characters, click to preview /", "#", id: "report_#{report.id}" %>
+    <% else %>
+      <%= report.text %>
+    <% end %>
+  </td>
+  <td class="col-md-2">
+    <%= report.created_at.to_s[0..15].insert(10, ' -') %>
+  </td>
+  <td class="col-md-1">
+    <%= link_to "Delete", report_url(report.id), method: :delete %>
+  </td>
+</tr>
+
+<script type="text/javascript">
+  var link = document.querySelector('a#report_<%= report.id %>');
+  if (link) {
+    link.addEventListener("click", function() {
+      var span = document.querySelector('span#report_<%= report.id %>');
+      if (span.style.display == "none") {
+        span.style.display = "inline";
+        this.innerHTML = "<br>Hide";
+      } else {
+        span.style.display = "none";
+        this.innerHTML = "/ exceeds 60 characters, click to preview /";
+      }
+    })
+  }
+</script>

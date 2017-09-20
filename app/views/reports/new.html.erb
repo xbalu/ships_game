@@ -1,0 +1,25 @@
+<h3 class="title">Send report</h3>
+<p>
+  <em>
+    If you would like to give your feedback or you encountered a nasty bug,
+    please use the following form:
+  </em>
+</p>
+
+<%= render "common/validation_errors", model: @report %>
+
+<div class="form">
+  <%= form_for @report, url: reports_url, method: :post do |f| %>
+    <div class="field">
+      <p>
+        <%= f.label :text %>
+        <em>(length must be between 12-1024)</em><br />
+        <%= f.text_area :text, autocomplete: "off" %>
+      </p>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Send", class: "btn-submit btn-primary" %>
+    </div>
+  <% end %>
+</div>

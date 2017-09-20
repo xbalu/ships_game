@@ -204,7 +204,7 @@ class Game < ApplicationRecord
     rank_difference = rank2 - rank1
     expected_points = 1 / (1 + 10 ** (rank_difference / 400.0))
     absolute_rank_change = won - expected_points
-    (rank1 + (32 * absolute_rank_change)).to_i
+    (rank1 + (32 * absolute_rank_change)).round
   end
 
   def self.get_user_games(user)

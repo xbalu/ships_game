@@ -303,7 +303,7 @@ function Game() {
     }
 
     Game.allowMove = false;
-    styleClickedField(field);
+    styleClickedField(field, "highlighted_field", 2000);
     let newRow = row + 1;
     let newCol = col + 1;
     enemyGridClick(newRow, newCol);
@@ -340,13 +340,13 @@ function Game() {
     $(Game.playerGridId).hide().slideDown(1250);
   }
 
-  function styleClickedField(field, classname = "highlighted_field") {
+  function styleClickedField(field, classname = "highlighted_field", delay = 1250) {
     field.classList.add(classname);
     fieldClicked = true;
 
     setTimeout(function() {
       clearBackground(field, classname);
-    }, 1250);
+    }, delay);
 
     function clearBackground(field, classname) {
       field.classList.remove(classname);
@@ -365,7 +365,7 @@ function Game() {
       if (classname) {
         Game.pClickedFieldInfo.classList.remove(classname);
       }
-    }, 1250)
+    }, 2000)
   }
 
   function printComments(comments) {

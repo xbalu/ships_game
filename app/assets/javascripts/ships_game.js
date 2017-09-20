@@ -29,7 +29,9 @@ function Game() {
   this.divComments = document.querySelector('.comments_body');
   this.commentsCount = 0;
   this.player2Image = document.querySelector('#player2_image');
-  this.profileLink = document.querySelector('#player2_link');
+  this.player2Link = document.querySelector('#player2_link');
+  this.player1Rank = document.querySelector('#player1_rank');
+  this.player2Rank = document.querySelector('#player2_rank');
 
   var Game = this;
   var fieldClicked = false;
@@ -70,8 +72,12 @@ function Game() {
       Game.enemyGrid = data['enemy_grid'];
       Game.misses = data['misses'];
       Game.shipsLeft = data['ships_left'];
-      checkForPlayer2(data['player2_name'], data['player2_img_url'], data['player2_id']);
       printComments(data['comments']);
+
+      if (Game.player2Image.style.display == "none" && data['player2_name']) {
+        updatePlayer2Info(data['player2_name'], data['player2_img_url'], data['player2_id'],
+          data['player2_rank']);
+      }
 
       if (Game.status == "pending") {
         Game.pMainGameInfo.innerHTML = "Waiting for opponent...";
@@ -86,19 +92,19 @@ function Game() {
         gameStatusStarted();
       } else if (Game.status == "ended") {
         Game.winnerName = data['status_params']['ended']['winner_name'];
-        gameStatusEnded();
+        gameStatusEnded(data['status_params']['ended']['player1_rank'], data['player2_rank']);
       }
     });
   }
 
-  function checkForPlayer2(name, image_url, player2_id) {
-    if (name && Game.player2Image.style.display == "none") {
-      Game.pPlayer2Name.innerHTML = name;
-      Game.player2Image.src = image_url;
-      Game.player2Image.style = "display: visible;";
-      Game.profileLink.href = Game.profileLink.href.replace("@", player2_id);
-      Game.profileLink.style = "display: visible;";
-    }
+  function updatePlayer2Info(name, image_url, player2_id, rank) {
+    Game.pPlayer2Name.innerHTML = name;
+    Game.player2Image.src = image_url;
+    Game.player2Image.style = "display: visible;";
+    Game.player2Link.href = Game.player2Link.href.replace("@", player2_id);
+    Game.player2Link.style = "display: visible;";
+    Game.player2Rank.innerHTML = "[" + rank + "]"
+    Game.player2Rank.style = "display: visible;";
   }
 
   function gameStatusDeployment() {
@@ -310,7 +316,7 @@ function Game() {
     }, "json");
   }
 
-  function gameStatusEnded() {
+  function gameStatusEnded(player1_rank, player2_rank) {
     Game.pMainGameInfo.innerHTML = "Game ended! Winner: " + Game.winnerName;
     Game.pMainGameInfo.classList.add('important');
 
@@ -321,6 +327,12 @@ function Game() {
 
     updateGrids();
     displayPlayersInfo();
+    updatePlayersRank(player1_rank, player2_rank)
+  }
+
+  function updatePlayersRank(player1_rank, player2_rank) {
+    Game.player1Rank.innerHTML = "[" + player1_rank + "]";
+    Game.player2Rank.innerHTML = "[" + player2_rank + "]";
   }
 
   function buildPlayerGrid() {

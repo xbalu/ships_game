@@ -1,6 +1,9 @@
 <div id="player1_div" class="col-md-3 game-top">
-  <div class="col-md-3" class="zero_margin_and_padding">
-    <%= image_tag User.find(@game.player1_id).get_image_url, class: "avatar_mid_1" %>
+  <div class="col-md-3 zero_margin_and_padding">
+    <%= image_tag User.find(@game.player1_id).get_image_url, class: "avatar_mid" %>
+    <span id="player1_rank" class="rank">
+      [<%= User.find(@game.player1_id).rank %>]
+    </span>
   </div>
   <div class="col-md-9">
     <p id="player1_name">
@@ -28,8 +31,10 @@
     </span><br>
     <span id="player2_info"></span>
   </div>
-  <div class="col-md-3" class="zero_margin_and_padding">
-    <%= image_tag "/", id: "player2_image", class: "avatar_mid_2", style: "display: none;" %>
+  <div class="col-md-3 zero_margin_and_padding">
+    <%= image_tag "/", id: "player2_image", class: "avatar_mid", style: "display: none;" %>
+    <span id="player2_rank" class="rank" style="display: none;">
+    </span>
   </div>
 </div>
 

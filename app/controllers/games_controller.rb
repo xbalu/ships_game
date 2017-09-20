@@ -66,9 +66,19 @@ class GamesController < ApplicationController
     user_id = current_user.id
     player = game.include_player?(user_id) ? user_id : game.player2_id
     player2 = game.player2_id
-    player2_name = player2 ? User.find(player2).nickname : ""
-    player2_img_url = player2 ? User.find(player2).get_image_url : ""
-    player2_img_url.insert(0, "/assets/") if player2_img_url == "default_avatar.jpg"
+
+    if player2
+      user_player2 = User.find(player2)
+      player2_name = user_player2.nickname
+      player2_img_url = user_player2.get_image_url
+      player2_img_url.insert(0, "/assets/") if player2_img_url == "default_avatar.jpg"
+      player2_rank = user_player2.rank
+    else
+      player2_name = ""
+      player2_img_url = ""
+      player2_rank = nil
+    end
+
     status = game.status
     status_params = {}
     player_grid, enemy_grid = game.get_game_grids(player)
@@ -88,13 +98,13 @@ class GamesController < ApplicationController
         attacked_field: last_attacked_field }
     when "ended"
       winner_name = User.find(game.winner_id).nickname
-      status_params["ended"] = { winner_name: winner_name }
+      status_params["ended"] = { winner_name: winner_name, player1_rank: User.find(game.player1_id).rank }
     end
 
     render json: { status: status, player2_name: player2_name, player_grid: player_grid,
       enemy_grid: status != "ended" ? hide_ships(enemy_grid) : enemy_grid, status_params: status_params,
       misses: game.get_misses, ships_left: game.get_ships_left, comments: comments,
-      player2_img_url: player2_img_url, player2_id: player2 }
+      player2_img_url: player2_img_url, player2_id: player2, player2_rank: player2_rank }
   end
 
   def get_data_from_js

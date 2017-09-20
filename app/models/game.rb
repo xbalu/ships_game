@@ -179,16 +179,32 @@ class Game < ApplicationRecord
       self.winner_id = attacker
       self.status = "ended"
       winner = User.find(attacker)
-      winner.games_won += 1
-      winner.save
       looser = is_enemy_first ? User.find(self.player1_id) : User.find(self.player2_id)
+      winner.games_won += 1
       looser.games_lost += 1
+      winner_current_rank = winner.rank
+      looser_current_rank = looser.rank
+      winner.rank = calculate_new_rank(winner_current_rank, looser_current_rank, 1)
+      looser.rank = calculate_new_rank(looser_current_rank, winner_current_rank, 0)
+      winner.save
       looser.save
       message = "Game ended!"
+      winner_rank_diff = winner.rank - winner_current_rank
+      looser_rank_diff = looser.rank - looser_current_rank
+      chat_msg = "<strong>#{winner.nickname} rank: <span style=color:#196719>+#{winner_rank_diff}</span>
+        <br>#{looser.nickname} rank: <span style=color:red>#{looser_rank_diff}</span></strong>"
+      self.comments.create(nickname: "", message: chat_msg)
     end
 
     self.save
     message
+  end
+
+  def calculate_new_rank(rank1, rank2, won)
+    rank_difference = rank2 - rank1
+    expected_points = 1 / (1 + 10 ** (rank_difference / 400.0))
+    absolute_rank_change = won - expected_points
+    (rank1 + (32 * absolute_rank_change)).to_i
   end
 
   def self.get_user_games(user)

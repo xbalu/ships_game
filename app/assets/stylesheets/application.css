@@ -183,17 +183,9 @@
    height: 40px;
  }
 
- .avatar_mid_1, .avatar_mid_2 {
+ .avatar_mid {
    width: 50px;
    height: 50px;
- }
-
- .avatar_mid_1 {
-   float: right;
- }
-
- .avatar_mid_2 {
-   float: left;
  }
 
  .navbar-right > .dropdown > a {
@@ -275,8 +267,13 @@
    margin-bottom: 0px;
  }
 
- .profile_link {
+ .profile_link, .rank {
    font-size: 0.8em;
+ }
+
+ .rank {
+   color: #990033;
+   text-align: center;
  }
 
  #player1_info, #player2_info {

@@ -165,12 +165,14 @@ class Game < ApplicationRecord
       message = "Miss"
     end
 
-    if is_enemy_first
-      self.player1_grid = player_grid
-      self.current_player = self.player1_id
-    else
-      self.player2_grid = player_grid
-      self.current_player = self.player2_id
+    if player_grid[[row, col]] != :hit
+      if is_enemy_first
+        self.player1_grid = player_grid
+        self.current_player = self.player1_id
+      else
+        self.player2_grid = player_grid
+        self.current_player = self.player2_id
+      end
     end
 
     if all_ships_destroyed(player_grid)

@@ -43,7 +43,7 @@ function Game() {
     setInterval(function fwGetGameData() {
       getGameData();
       return fwGetGameData;
-    }(), 1500);
+    }(), 1250);
   }
 
   function addEventListenerForChatInput() {
@@ -334,7 +334,7 @@ function Game() {
 
     setTimeout(function() {
       clearBackground(field, classname);
-    }, 1000);
+    }, 1250);
 
     function clearBackground(field, classname) {
       field.classList.remove(classname);
@@ -353,7 +353,7 @@ function Game() {
       if (classname) {
         Game.pClickedFieldInfo.classList.remove(classname);
       }
-    }, 1500)
+    }, 1250)
   }
 
   function printComments(comments) {

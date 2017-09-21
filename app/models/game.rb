@@ -125,6 +125,7 @@ class Game < ApplicationRecord
       self.ship_key_to_deploy(self.player2_id) == :ships_deployed
 
       self.status = "started"
+      self.current_player = rand(2) == 1 ? self.player1.id : self.player2_id
       self.save
     end
   end

@@ -21,7 +21,7 @@ class GamesController < ApplicationController
     player1_id = current_user.id
     empty_grid = build_empty_grid
 
-    game = Game.create(status: "pending", current_player: player1_id, player1_id: player1_id,
+    game = Game.create(status: "pending", current_player: 0, player1_id: player1_id,
       player1_grid: empty_grid, player2_grid: empty_grid, player1_ships: {}, player2_ships: {},
       player1_misses: 0, player2_misses: 0, winner_id: 0)
 

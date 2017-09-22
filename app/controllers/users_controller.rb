@@ -10,4 +10,12 @@ class UsersController < ApplicationController
     @games_won = @user.games_won
     @games_lost = @user.games_lost
   end
+
+  def show_all
+    @users = User.get_nickname_ilike(params["user_name"]).order(rank: :desc, id: :asc).
+      paginate(:page => params[:page], :per_page => 20)
+    @users = @users.get_online_users if params[:online] == "true"
+
+    @ranks_order = User.order(rank: :desc, id: :asc).pluck(:id)
+  end
 end

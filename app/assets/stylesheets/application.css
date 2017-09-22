@@ -39,6 +39,28 @@
    width: 250px;
  }
 
+ .online {
+   font-weight: bold;
+   color: green;
+   font-size: 1.2em;
+   letter-spacing: 1.5px;
+ }
+
+ .user_rank {
+   font-size: 1.2em;
+   font-family: sans-serif;
+   letter-spacing: 2px;
+ }
+
+ .first_position {
+   background-color: #ffff99;
+ }
+
+ .user_search {
+   width: 200px;
+   text-align: center;
+ }
+
  .btn-submit {
    height: 30px;
    margin-top: 5px;
@@ -108,18 +130,18 @@
    margin-left: 50px;
  }
 
- #games_list {
+ #games_list, #users_list {
    font-family: monospace;
    margin-top: 20px;
  }
 
- .games_list_links a {
+ .games_list_links a, .users_links a {
    padding-left: 25px;
    padding-right: 45px;
    color: #990033;
  }
 
- .games_list_links a:hover {
+ .games_list_links a:hover, .users_links a:hover {
    background-color: #990033;
    color: #fff;
  }

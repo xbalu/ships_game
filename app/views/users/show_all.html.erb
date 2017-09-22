@@ -1,0 +1,37 @@
+<div class="col-md-3">
+  <h4 class="count">
+    <strong>Users online:</strong> <%= User.select { |user| user.online? }.count %>
+    / <%= User.count %>
+  </h4>
+</div>
+
+<div class="col-md-4 col-md-offset-1">
+  <span class="users_links">
+    <% if params[:online] != "true" %>
+      <%= link_to "Show online users", users_url(online: "true") %>
+    <% else %>
+      <%= link_to "Show all users", users_url(online: "false") %>
+    <% end %>
+  </span>
+</div>
+
+<div class="col-md-4">
+  <%= form_tag(users_path, :method => "get", id: "user-search") do %>
+    <%= link_to "Clear", users_path(user_name: nil) %>
+    <%= text_field_tag "user_name", params[:user_name], placeholder: "Find specific player", class: "user_search" %>
+    <%= submit_tag "Find", class: "btn btn-danger" %>
+  <% end %>
+</div>
+
+<div id="users_list" class="col-md-12">
+  <table class="table table-condensed">
+    <tr class="danger">
+      <th class="col-md-2">Status</th>
+      <th class="col-md-4">Nickname</th>
+      <th class="col-md-3">Rank</th>
+      <th class="col-md-3">Position</th>
+    </tr>
+    <%= render @users %>
+  </table>
+  <%= will_paginate @users %>
+</div>

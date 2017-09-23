@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates :nickname, presence: true, length: { minimum: 3, maximum: 12 }, uniqueness: true
 
   def get_image_url
-    self.image.file.size > 0 ? self.image.url : "default_avatar.jpg"
+    self.image.file.size > 0 ? self.image.url : 'default_avatar.jpg'
   end
 
   def is_admin?

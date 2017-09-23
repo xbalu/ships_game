@@ -99,7 +99,9 @@ function Game() {
 
   function updatePlayer2Info(name, image_url, player2_id, rank) {
     Game.pPlayer2Name.innerHTML = name;
-    Game.player2Image.src = image_url;
+    if (image_url != "default_avatar.jpg") {
+      Game.player2Image.src = image_url;
+    }
     Game.player2Image.style = "display: visible;";
     Game.player2Link.href = Game.player2Link.href.replace("@", player2_id);
     Game.player2Link.style = "display: visible;";

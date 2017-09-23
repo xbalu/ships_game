@@ -62,7 +62,6 @@ class GamesController < ApplicationController
       user_player2 = User.find(player2)
       player2_name = user_player2.nickname
       player2_img_url = user_player2.get_image_url
-      player2_img_url.insert(0, "/assets/") if player2_img_url == "default_avatar.jpg"
       player2_rank = user_player2.rank
     else
       player2_name = ""

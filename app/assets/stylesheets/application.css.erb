@@ -111,7 +111,7 @@
    width: 180px;
    height: 80px;
    float: left;
-   background: url('logo.png') no-repeat center center;
+   background: url(<%= asset_path 'logo.png' %>) no-repeat center center;
    background-size: contain;
    margin: 10px;
  }
@@ -357,12 +357,12 @@
  }
 
  .ship {
-   background: #b3c6ff url('ship.png') no-repeat center center;
+   background: #b3c6ff url(<%= asset_path 'ship.png' %>) no-repeat center center;
    background-size: contain;
  }
 
  .hit {
-   background: #809fff url('hit.png') no-repeat center center;
+   background: #809fff url(<%= asset_path 'hit.png' %>) no-repeat center center;
    background-size: contain;
  }
 

@@ -1,5 +1,5 @@
 function Game() {
-  let id = parseInt(document.querySelector('#game_id').innerHTML);
+  var id = parseInt(document.querySelector('#game_id').innerHTML);
   this.getGameDataUrl = '/games/' + id + '/get_game_data';
   this.postGameDataUrl = '/games/' + id + '/send_game_data';
   this.status = "pending";
@@ -51,8 +51,8 @@ function Game() {
   function addEventListenerForChatInput() {
     document.querySelector("#chat_form").addEventListener("submit", function(e) {
       e.preventDefault();
-      let chatInput = document.querySelector("#chat_input");
-      let inputValue = chatInput.value;
+      var chatInput = document.querySelector("#chat_input");
+      var inputValue = chatInput.value;
 
       if (!inputValue.length) {
         return;
@@ -122,7 +122,7 @@ function Game() {
 
   function directionKeyboardCheck() {
     if (Game.shipsDeployed >= 6) {
-      let clickedDirection = document.querySelector('button.highlighted_field');
+      var clickedDirection = document.querySelector('button.highlighted_field');
       if (clickedDirection) {
         clickedDirection.classList.remove('highlighted_field');
       }
@@ -147,16 +147,16 @@ function Game() {
   }
 
   function enableDirectionButtons() {
-    let buttons = document.querySelectorAll('.btn-direction');
+    var buttons = document.querySelectorAll('.btn-direction');
     buttons[0].classList.add("highlighted_field");
 
-    for (let i = 0; i < buttons.length; i++) {
+    for (var i = 0; i < buttons.length; i++) {
       buttons[i].addEventListener("click", function() {
         if (Game.shipsDeployed >= 6) {
           return;
         }
 
-        let previouslyClickedButton = document.querySelector('button.highlighted_field');
+        var previouslyClickedButton = document.querySelector('button.highlighted_field');
         this.classList.add('highlighted_field');
 
         if (this != previouslyClickedButton) {
@@ -178,10 +178,10 @@ function Game() {
       return;
     }
 
-    let directionButton = document.querySelector('button.highlighted_field') || []
-    let dir = directionButton.value || "up";
-    let newRow = row + 1;
-    let newCol = col + 1;
+    var directionButton = document.querySelector('button.highlighted_field') || []
+    var dir = directionButton.value || "up";
+    var newRow = row + 1;
+    var newCol = col + 1;
 
     $.post(Game.postGameDataUrl, { row: newRow, col: newCol, direction: dir }, function(data) {
       if (data['return_value'] == false) {
@@ -199,7 +199,7 @@ function Game() {
   }
 
   function highlightShipFields(row, col, dir, shipParts) {
-    let rowMod = 0, colMod = 0;
+    var rowMod = 0, colMod = 0;
 
     switch (dir) {
       case "up":
@@ -216,9 +216,9 @@ function Game() {
         break;
     }
 
-    for (let i = 0; i < shipParts; i++) {
-      let temp_row = row + rowMod * i, temp_col = col + colMod * i;
-      let temp_field = Game.deploymentGridId.querySelectorAll('tr')[temp_row].querySelectorAll('td')[temp_col];
+    for (var i = 0; i < shipParts; i++) {
+      var temp_row = row + rowMod * i, temp_col = col + colMod * i;
+      var temp_field = Game.deploymentGridId.querySelectorAll('tr')[temp_row].querySelectorAll('td')[temp_col];
       styleClickedField(temp_field);
     }
   }
@@ -273,15 +273,15 @@ function Game() {
 
   function highlightPlayersAttackedField() {
     if (Game.attackedField.length) {
-      let row = parseInt(Game.attackedField[0]) - 1;
-      let col = parseInt(Game.attackedField[1]) - 1;
-      let temp_field = Game.playerGridId.querySelectorAll('tr')[row].querySelectorAll('td')[col];
+      var row = parseInt(Game.attackedField[0]) - 1;
+      var col = parseInt(Game.attackedField[1]) - 1;
+      var temp_field = Game.playerGridId.querySelectorAll('tr')[row].querySelectorAll('td')[col];
       styleClickedField(temp_field, "attacked_field");
     }
   }
 
   function removeDeploymentGUI() {
-    let grid = document.querySelector('#deployment');
+    var grid = document.querySelector('#deployment');
     if (grid) {
       grid.parentNode.removeChild(grid);
     }
@@ -294,7 +294,7 @@ function Game() {
   }
 
   function startedGameClickCallback(field, row, col) {
-    let str = '[' + (row + 1) + ', ' + (col + 1) + ']';
+    var str = '[' + (row + 1) + ', ' + (col + 1) + ']';
 
     if (fieldClicked || Game.enemyGrid[str] == "miss" || Game.enemyGrid[str] == "hit" ||
       Game.status == "ended" || !Game.allowMove) {
@@ -304,8 +304,8 @@ function Game() {
 
     Game.allowMove = false;
     styleClickedField(field, "highlighted_field", 2000);
-    let newRow = row + 1;
-    let newCol = col + 1;
+    var newRow = row + 1;
+    var newCol = col + 1;
     enemyGridClick(newRow, newCol);
   }
 
@@ -340,7 +340,10 @@ function Game() {
     $(Game.playerGridId).hide().slideDown(1250);
   }
 
-  function styleClickedField(field, classname = "highlighted_field", delay = 1250) {
+  function styleClickedField(field, classname, delay) {
+    classname = classname || "highlighted_field";
+    delay = delay || 1250;
+
     field.classList.add(classname);
     fieldClicked = true;
 
@@ -369,20 +372,20 @@ function Game() {
   }
 
   function printComments(comments) {
-    let commentsLength = comments.length;
+    var commentsLength = comments.length;
 
     if (Game.commentsCount == commentsLength) {
       return;
     }
 
-    let previousCommentsCount = Game.commentsCount;
+    var previousCommentsCount = Game.commentsCount;
     Game.commentsCount = commentsLength;
     Game.divComments.innerHTML = "";
 
-    for (let i = 0; i < commentsLength; i++) {
-      let strTime = (new Date(comments[i]['created_at'])).toTimeString();
-      let time = strTime.substr(0, strTime.indexOf(' '));
-      let p = document.createElement('p');
+    for (var i = 0; i < commentsLength; i++) {
+      var strTime = (new Date(comments[i]['created_at'])).toTimeString();
+      var time = strTime.substr(0, strTime.indexOf(' '));
+      var p = document.createElement('p');
 
       p.innerHTML = "<strong>" + comments[i]['nickname'] + "</strong> " + time + "<br>" + comments[i]['message'];
       Game.divComments.appendChild(p);

@@ -8,9 +8,9 @@ function duelsCheck() {
     if (!data) {
       return;
     }
-    
+
     if (data['duel_id']) {
-      let div = document.createElement("div");
+      var div = document.createElement("div");
       div.innerHTML = getChallengedBody(data['invited_by']);
       document.body.appendChild(div);
 
@@ -38,7 +38,7 @@ function duelsCheck() {
     }
 
     if (data['response_from'] && data['response_from'].length > 0) {
-      let div = document.createElement("div");
+      var div = document.createElement("div");
       div.innerHTML = getResponseBody(data['response_from'], data['game_url'], data['created_at']);
       document.body.appendChild(div);
 

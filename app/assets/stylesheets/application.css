@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require jquery-ui
  */
 
  body {
@@ -39,11 +40,18 @@
    width: 250px;
  }
 
- .online {
+ .online, .offline {
    font-weight: bold;
-   color: green;
    font-size: 1.2em;
    letter-spacing: 1.5px;
+ }
+
+ .online {
+   color: green;
+ }
+
+ .offline {
+   color: red;
  }
 
  .user_rank {
@@ -176,6 +184,13 @@
    height: 100px;
    margin-top: 50px;
    font-size: 1.15em;
+ }
+
+ .profile-status {
+   text-align: center;
+   padding: 10px 0px;
+   border: 1px dashed black;
+   background-color: #ffff99;
  }
 
  .profile-info td:nth-child(1) {
@@ -367,7 +382,7 @@
 
  #comments {
    width: 25%;
-   height: 350px;
+   height: 330px;
    float: right;
    overflow-y: auto;
    word-break: break-all;
@@ -386,4 +401,40 @@
    font-family: "sans-serif";
    font-size: 1.2rem;
    padding-left: 10px;
+ }
+
+ #duel_invite, #duel_response {
+   background-color: #ffff99;
+ }
+
+ .ui-dialog button {
+   height: 25px;
+   border: 1px solid #001866;
+   background-color: #990033;
+   color: white;
+ }
+
+ .ui-dialog button:hover {
+   background-color: rgb(255, 235, 255);
+   color: #990033;
+ }
+
+ .ui-dialog-title {
+   color: #990033;
+ }
+
+ .dialog_nickname, .dialog_date {
+   font-family: sans-serif;
+   font-size: 1.1em;
+ }
+
+ .dialog_nickname {
+   letter-spacing: 2px;
+   color: #001866;
+ }
+
+ .duel_url {
+   font-weight: bold;
+   padding: 5px;
+   border: 1px dashed red;
  }

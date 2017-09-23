@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   get 'join_first_pending', to: 'games#join_first_pending', as: 'join_first_pending'
   get 'users/profile/:id', to: 'users#profile', as: 'user_profile'
   get 'users', to: 'users#show_all', as: 'users'
+  get 'duels/find_new', to: 'duels#find_new'
+  post 'duels/response', to: 'duels#user_response'
+  get 'duels/challenge/:id', to: 'duels#challenge', as: 'duels_challenge'
 
   mount PostgresqlLoStreamer::Engine => "/user_image"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

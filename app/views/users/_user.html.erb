@@ -1,15 +1,21 @@
 <% position = @ranks_order.index(user.id) + 1 %>
+<% online = user.online?  %>
 
 <tr class="<%= position == 1 ? "first_position" : "" %>">
   <td>
-    <% if user.online? %>
+    <% if online %>
       <span class="online">Online</span>
     <% else %>
       <span>Offline</span>
     <% end %>
   </td>
+  <td style="text-align: left;">
+    <% if online && user.id != current_user.id %>
+      <%= link_to "Challenge user", duels_challenge_path(user.id) %>
+    <% end %>
+  </td>
   <td>
-    <%= link_to "#{user.nickname}", user_profile_path(user.id), target: "_blank" %>
+    <%= link_to "#{user.nickname}", user_profile_path(user.id) %>
   </td>
   <td class="user_rank">
     <%= user.rank %>

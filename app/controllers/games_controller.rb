@@ -18,13 +18,7 @@ class GamesController < ApplicationController
   end
 
   def new
-    player1_id = current_user.id
-    empty_grid = build_empty_grid
-
-    game = Game.create(status: "pending", current_player: 0, player1_id: player1_id,
-      player1_grid: empty_grid, player2_grid: empty_grid, player1_ships: {}, player2_ships: {},
-      player1_misses: 0, player2_misses: 0, winner_id: 0)
-
+    game = Game.initialize_new_game(current_user.id)
     redirect_to game_url(game)
   end
 
@@ -37,10 +31,7 @@ class GamesController < ApplicationController
       return
     end
 
-    game.player2_id = current_user.id
-    game.status = "deployment"
-    game.save
-
+    game.force_player_join(current_user.id)
     redirect_to game_url(game)
   end
 
@@ -153,15 +144,5 @@ class GamesController < ApplicationController
     keys = enemy_grid.select { |k, v| v == :ship }.keys
     keys.each { |key| enemy_grid[key] = :empty }
     enemy_grid
-  end
-
-  def build_empty_grid
-    grid = {}
-    (1..10).each do |x|
-      (1..10).each do |y|
-        grid[[x, y]] = :empty
-      end
-    end
-    grid
   end
 end

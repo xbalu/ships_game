@@ -11,8 +11,25 @@ class Game < ApplicationRecord
   belongs_to :player1, class_name: "User"
   belongs_to :player2, class_name: "User", optional: true
   has_many :comments, dependent: :destroy
+  has_one :duel, dependent: :destroy
 
   self.per_page = 12
+
+  def self.initialize_new_game(player1_id)
+    empty_grid = build_empty_grid
+
+    Game.create(status: "pending", current_player: 0, player1_id: player1_id,
+      player1_grid: empty_grid, player2_grid: empty_grid, player1_ships: {}, player2_ships: {},
+      player1_misses: 0, player2_misses: 0, winner_id: 0)
+  end
+
+  def force_player_join(player_id)
+    return if status != "pending"
+
+    self.player2_id = player_id
+    self.status = "deployment"
+    self.save!
+  end
 
   def include_player?(player_id)
     (self.player1_id == player_id) || (self.player2_id == player_id)
@@ -229,5 +246,15 @@ class Game < ApplicationRecord
 
   def all_ships_destroyed(player_grid)
     player_grid.select { |k, v| v == :ship }.count == 0
+  end
+
+  def self.build_empty_grid
+    grid = {}
+    (1..10).each do |x|
+      (1..10).each do |y|
+        grid[[x, y]] = :empty
+      end
+    end
+    grid
   end
 end

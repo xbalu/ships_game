@@ -1,24 +1,3 @@
-# README
+> ShipsGame <
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The goal of the game is simple: annihilate all ships of your opponent before he does! Game status will always take one of four values: pending (waiting for someone to join), deployment (putting your ships on the game board), started (players shoot by turns) and ended (sounds like someone has won, huh?). Each player takes turn until he misses, first attack order is random. You can create new battle room, join someone else's or challenge specific player if only he's online. Have fun! 

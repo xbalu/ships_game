@@ -21,6 +21,30 @@
    font-family: "sans-serif";
  }
 
+ .jumbotron {
+   text-align: center;
+   border: 2px solid black;
+   padding: 10px;
+   margin-bottom: 15px;
+ }
+
+ .jumbotron p {
+   font-family: sans-serif;
+   font-weight: 400;
+   font-size: 18px;
+ }
+
+ .jumbotron h2 {
+   margin-top: 0px;
+   text-align: center;
+   font-weight: bold;
+   color: #001866;
+ }
+
+ #gameboards_image {
+   text-align: center;
+ }
+
  div.field_with_errors {
    display: inline;
  }

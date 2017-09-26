@@ -121,9 +121,11 @@ class GamesController < ApplicationController
       render json: { return_value: return_value, ship_parts: game.get_ship_parts_by_key(ship_key),
         player_grid: player_grid, ships_deployed: ships_deployed, status: game.status }
     when "started"
-      message = game.check_clicked_field(player, row, col)
-      game.save_last_attack(player, row, col)
-      render json: { message: message }
+      if (game.current_player == player)
+        message = game.check_clicked_field(player, row, col)
+        game.save_last_attack(player, row, col)
+        render json: { message: message }
+      end
     end
   end
 

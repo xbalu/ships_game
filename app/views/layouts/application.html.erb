@@ -64,6 +64,7 @@
                   <% if current_user.is_admin? %>
                     <li class="divider"></li>
                     <li><%= link_to "Reports", reports_path %></li>
+                    <li><%= link_to "Games shutdown", games_shutdown_path %></li>
                   <% end %>
                 </ul>
               </li>

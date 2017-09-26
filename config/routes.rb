@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get 'duels/find_new', to: 'duels#find_new'
   post 'duels/response', to: 'duels#user_response'
   get 'duels/challenge/:id', to: 'duels#challenge', as: 'duels_challenge'
+  get 'shutdown', to: 'games#shutdown', as: 'games_shutdown'
 
   mount PostgresqlLoStreamer::Engine => "/user_image"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

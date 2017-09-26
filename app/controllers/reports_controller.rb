@@ -30,13 +30,6 @@ class ReportsController < ApplicationController
 
   private
 
-  def check_if_user_is_admin
-    if !current_user.is_admin?
-      flash[:alert] = "You don\'t have permission to do that"
-      redirect_to root_url
-    end
-  end
-
   def report_params
     params.require(:report).permit(:text)
   end

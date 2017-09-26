@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   before_action :authenticate_user!
   before_action :check_if_user_belongs_to_game, only: [:show, :send_data_to_js, :get_data_from_js]
+  before_action :check_if_user_is_admin, only: [:shutdown]
 
   def check_if_user_belongs_to_game
     game = Game.find(params[:id])
@@ -87,7 +88,7 @@ class GamesController < ApplicationController
       status_params["started"] = { allow_move: allow_move, current_player_name: current_player_name,
         attacked_field: last_attacked_field }
     when "ended"
-      winner_name = User.find(game.winner_id).nickname
+      winner_name = game.winner_id > 0 ? User.find(game.winner_id).nickname : "-"
       status_params["ended"] = { winner_name: winner_name, player1_rank: User.find(game.player1_id).rank }
     end
 
@@ -137,6 +138,12 @@ class GamesController < ApplicationController
   def user_games
     user = current_user.id
     @games = Game.all.get_user_games(user).order(created_at: :desc).page(params[:page])
+  end
+
+  def shutdown
+    games_changed = Game.shutdown_timed_out_games.count
+    flash[:notice] = "Action performed [games changed: #{games_changed}]"
+    redirect_to games_url
   end
 
   private

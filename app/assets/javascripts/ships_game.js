@@ -299,7 +299,7 @@ function Game() {
     var str = '[' + (row + 1) + ', ' + (col + 1) + ']';
 
     if (fieldClicked || Game.enemyGrid[str] == "miss" || Game.enemyGrid[str] == "hit" ||
-      Game.status == "ended" || !Game.allowMove) {
+      Game.enemyGrid[str] == "burned" || Game.status == "ended" || !Game.allowMove) {
 
       return;
     }
@@ -440,6 +440,8 @@ function Game() {
 
         if (data[string] == 'hit') {
           td.classList.add("hit");
+        } else if (data[string] == 'burned') {
+          td.classList.add("burned");
         } else if (data[string] == 'miss') {
           td.classList.add("miss");
         } else if (data[string] == 'ship') {

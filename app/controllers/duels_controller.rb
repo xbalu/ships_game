@@ -30,6 +30,8 @@ class DuelsController < ApplicationController
 
   def user_response
     duel = Duel.find(params[:duel_id])
+    return if !duel.accepted.nil?
+
     accepted = params[:accepted]
     duel.accepted = accepted
 

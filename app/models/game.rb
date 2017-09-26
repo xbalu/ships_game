@@ -162,6 +162,9 @@ class Game < ApplicationRecord
       player_ships = self.player2_ships
     end
 
+    return if player_grid[[row, col]] == :miss || player_grid[[row, col]] == :hit ||
+      player_grid[[row, col]] == :burned
+
     message = ""
 
     if player_grid[[row, col]] == :ship
@@ -171,7 +174,7 @@ class Game < ApplicationRecord
       ship_burned = player_ships[key].all? { |e| player_grid[e] == :hit }
 
       if ship_burned
-        player_grid = mark_ship_neighbours(player_ships[key], player_grid)
+        player_grid = burn_enemy_ship(player_ships[key], player_grid)
         message = "Ship burned!"
         player_ships[key] = [0]
       else
@@ -179,16 +182,13 @@ class Game < ApplicationRecord
       end
     else
       player_grid[[row, col]] = :miss
-      is_enemy_first ? self.player2_misses += 1 : self.player1_misses += 1
       message = "Miss"
-    end
 
-    if player_grid[[row, col]] != :hit
       if is_enemy_first
-        self.player1_grid = player_grid
+        self.player2_misses += 1
         self.current_player = self.player1_id
       else
-        self.player2_grid = player_grid
+        self.player1_misses += 1
         self.current_player = self.player2_id
       end
     end
@@ -233,11 +233,12 @@ class Game < ApplicationRecord
     where(status: "pending").where.not("player1_id = :id", id: "#{user}").order(created_at: :desc).first
   end
 
-  def mark_ship_neighbours(fields, player_grid)
+  def burn_enemy_ship(fields, player_grid)
     fields.each do |field|
       NEIGHBOURS.each do |neighbour|
         row = field[0] + neighbour[0]
         col = field[1] + neighbour[1]
+        player_grid[[field[0], field[1]]] = :burned
         player_grid[[row, col]] = :miss if player_grid[[row, col]] == :empty
       end
     end

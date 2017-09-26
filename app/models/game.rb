@@ -260,7 +260,7 @@ class Game < ApplicationRecord
   end
 
   def self.shutdown_timed_out_games
-    games = self.where("status <> 'pending' AND status <> 'ended' AND created_at < ?", 24.seconds.ago)
+    games = self.where("status <> 'pending' AND status <> 'ended' AND created_at < ?", 24.hours.ago)
     games.each do |game|
       game.comments.create!(nickname: "", message: "<strong style='color: #990033;'>
         Timed out!<br>The game has ended</strong>")

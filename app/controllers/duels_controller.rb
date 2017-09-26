@@ -56,6 +56,8 @@ class DuelsController < ApplicationController
       flash[:error] = "You can't challenge offline user"
     elsif Duel.not_allowed(challenged_by, user_id)
       flash[:error] = "You can challenge the same user only once per 5 minutes"
+    elsif Duel.challenged_recently?(user_id)
+      flash[:error] = "The user has been just challenged by someone, let him take a breath"
     elsif challenged_by != user_id
       Duel.create!(player1_id: challenged_by, player2_id: user_id)
       flash[:notice] = "Duel challenge has been sent"

@@ -1,3 +1,5 @@
+var intervalId = 0;
+
 setTimeout(function duelsCheckTimeout() {
   duelsCheck();
   return setTimeout(duelsCheckTimeout, 10000);
@@ -13,6 +15,7 @@ function duelsCheck() {
       var div = document.createElement("div");
       div.innerHTML = getChallengedBody(data['invited_by']);
       document.body.appendChild(div);
+      intervalId = intervalId || setInterval(duelsCheck, 1111);
 
       $(function() {
         $("#duel_invite").dialog({
@@ -35,6 +38,9 @@ function duelsCheck() {
           }
         });
       } );
+    } else if ($("#duel_invite").dialog("isOpen") == true) {
+      $("#duel_invite").dialog("close");
+      turnOffInterval();
     }
 
     if (data['response_from'] && data['response_from'].length > 0) {
@@ -61,12 +67,18 @@ function duelsCheck() {
 
 function sendUserResponse(dialog, data, callback) {
   $(dialog).dialog("close");
+  turnOffInterval();
 
   $.post("/duels/response", data, function(data) {
     if (callback) {
       callback(data['game_url']);
     }
   }, "json");
+}
+
+function turnOffInterval() {
+  clearInterval(intervalId);
+  intervalId = 0;
 }
 
 function getChallengedBody(invited_by) {

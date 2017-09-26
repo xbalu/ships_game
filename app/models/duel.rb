@@ -3,11 +3,15 @@ class Duel < ApplicationRecord
   belongs_to :player2, class_name: "User"
 
   def self.check_if_user_has_been_challenged(user_id)
-    where("player2_id = :id AND accepted IS NULL", id: "#{user_id}").where("created_at > ?", 15.minutes.ago).order(:created_at).first
+    where("player2_id = :id AND accepted IS NULL", id: "#{user_id}").where("created_at > ?", 3.minutes.ago).order(:created_at).first
   end
 
   def self.check_if_any_challenged_user_responded(user_id)
     where("player1_id = :id AND accepted IS NOT NULL AND feedback = false", id: "#{user_id}").order(:created_at).first
+  end
+
+  def self.challenged_recently?(user_id)
+    where("player2_id = :id", id: "#{user_id}").where("created_at > ?", 3.minutes.ago).count > 0
   end
 
   def self.not_allowed(challenged_by, user)
